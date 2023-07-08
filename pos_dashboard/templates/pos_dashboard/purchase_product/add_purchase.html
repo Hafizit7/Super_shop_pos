@@ -1,0 +1,258 @@
+{% extends 'pos_dashboard/base.html' %}
+{% block body %}
+
+<div class="main-wrapper">
+    <div class="page-wrapper">
+        <div class="content">
+            <div class="page-header">
+                <div class="page-title">
+                    <h4>Purchase Add</h4>
+                    <h6>Add/Update Purchase</h6>
+                </div>
+            </div>
+            <form action="{% url 'purchase_product' %}" method="POST" enctype="multipart/form-data">
+                <div class="card">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-3 col-sm-6 col-md-4 col-12">
+                                <div class="form-group">
+                                    <label>Supplier Name</label>
+                                    <select class="select" name="supplier_name" >
+                                    <option value="" selected="">Select Supplier--</option>
+                                    {% for x in supplier %}
+                                    <option value="{{ x.pk }}">{{ x.name }}</option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-sm-6 col-md-4 col-12">
+                                <div class="form-group">
+                                    <label>Phone number</label>
+                                    <div class="input-groupicon">
+                                        <input type="number" name="phone" class="form-control" placeholder="Phone Number">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-sm-6 col-md-4 col-12">
+                                <div class="form-group">
+                                    <label>Start Date</label>
+                                    <div class="input-groupicon">
+                                        <input type="date" name="billing_date" class="form-control" placeholder="Start Date">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-sm-6 col-md-4 col-12">
+                                <div class="form-group">
+                                    <label>Product Name</label>
+                                    <div class="input-groupicon">
+                                        <input type="text" name="product_name" class="form-control" placeholder="Product Name">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-2 col-sm-6 col-md-4 col-12">
+                                <div class="form-group">
+                                    <label>Product Code</label>
+                                    <div class="input-groupicon">
+                                        <input type="text" name="product_code" class="form-control" placeholder="Product Code">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-3 col-sm-6 col-md-4 col-12">
+                                <div class="form-group">
+                                    <label>Category Select</label>
+
+                                    <select class="select" name="category" >
+                                    <option value="" selected="">Select category--</option>
+                                    {% for x in category %}
+                                    <option value="{{ x.pk }}">{{ x.category_name }}</option>
+                                    {% endfor %}
+                                    </select>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-3 col-sm-6 col-md-4 col-12">
+                                <div class="form-group">
+                                    <label>Brand Select</label>
+                                    <select class="select" name="brand" >
+                                    <option value="" selected="">Select Brand--</option>
+                                    {% for x in brand %}
+                                    <option value="{{ x.pk }}">{{ x.name }}</option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-sm-6 col-md-4 col-12">
+                                <div class="form-group">
+                                    <label>Quantity</label>
+                                    <div class="input-groupicon">
+                                        
+                                        <input type="number" id="id_quantity" name="quantity" class="form-control" placeholder="Quantity">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-sm-6 col-md-4 col-12">
+                                <div class="form-group">
+                                    <label>Unit</label>
+                                    <select class="select" name="unit" >
+                                    <option value="" selected="">Select Unit--</option>
+                                    {% for x in unit %}
+                                    <option value="{{ x.pk }}">{{ x.name }}</option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-sm-6 col-md-4 col-12">
+                                <div class="form-group">
+                                    <label>Unit Price</label>
+                                    <div class="input-groupicon">
+                                        <input type="number" id="id_unit_price" name="unit_price" class="form-control" placeholder="Unit Price">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 col-md-4 col-12">
+                                <div class="form-group">
+                                    <label>Buy Price</label>
+                                    <div class="input-groupicon">
+                                        <input type="number" name="buy_price" class="form-control" placeholder="Buy Price">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 col-md-4 col-12">
+                                <div class="form-group">
+                                    <label>Sale Price</label>
+                                    <div class="input-groupicon">
+                                        <input type="number" name="sale_price" class="form-control" placeholder="Sales Price">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 col-md-4 col-12">
+                                <div class="form-group">
+                                    <label>Whole Sale Price</label>
+                                    <div class="input-groupicon">
+                                        <input type="number" name="whole_sale_price" class="form-control" placeholder="Whole Sales Price">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-lg-12 float-md-right">
+                                <div class="total-order">
+                                    <ul>
+                                        <li>
+                                            <h4>Total Price</h4>
+                                        <input type="number" name="total_price" readonly="True" id="id_total_price" class="form-control" placeholder="Total Price">
+                                        </li>
+                                        <li>
+                                            <h4>Discount % </h4>
+                                        <input type="number" name="total_descount" id="id_total_descount" class="form-control" placeholder="Discount Price %">
+                                        </li>
+                                        <li>
+                                            <h4>Sub Total</h4>
+                                        <input type="number" name="sub_total" id="id_sub_total" class="form-control" placeholder="Sub Total Price">
+                                        </li>
+                                        <li class="total">
+                                            <h4>Paid</h4>
+                                        <input type="number" name="paid" id="id_paid" class="form-control" placeholder="Paid Price">
+                                        </li>
+
+                                        <li class="total">
+                                            <h4>Due</h4>
+                                        <input type="number" name="due" id="id_due" class="form-control" placeholder="Due Price">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            {{ form.image }}
+                           
+                            <div class="col-lg-12">
+                                <button type="submit" class="btn btn-submit me-2">Submit</button>
+                                <a href="#"class="btn btn-cancel">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+
+{% block script %}
+
+<!-- total_price -->
+<script>
+    $(document).ready(function () {
+        // Get the CSRF token
+        var csrftoken = $('[name="csrfmiddlewaretoken"]').val();
+
+        // Retrieve the necessary elements
+        var quantityInput = $('#id_quantity');
+        var unitPriceInput = $('#id_unit_price');
+        var totalInput = $('#id_total_price');
+        var subtotalInput = $('#id_sub_total');
+
+        var total_price_Input = $('#id_total_price');
+        var discount_price_input = $('#id_total_descount');
+        var subtotalInput = $('#id_sub_total');
+
+
+        var paidamountInput = $('#id_paid');
+        var dueamountInput = $('#id_due');
+
+       
+// Function to send AJAX request and update total
+        function updateTotal() {
+            
+            var quantity_val = quantityInput.val();
+            var unitPrice_val = unitPriceInput.val();
+            let discount_price_input_val = discount_price_input.val()
+            var paid_price_val = paidamountInput.val();
+
+            totalInput.val(quantity_val*unitPrice_val);
+
+  
+            subtotalInput.val(quantity_val * unitPrice_val - (discount_price_input_val || 0));
+
+            subtotalInput_val = subtotalInput.val()
+
+            dueamountInput.val(subtotalInput_val-paid_price_val)
+         
+        }
+        paidamountInput.on('change', updateTotal);
+        
+        
+        // Attach change event listeners to the quantity and unit price inputs
+        quantityInput.on('change', updateTotal);
+        unitPriceInput.on('change', updateTotal);
+
+        total_price_Input.on('change', updateTotal);
+        discount_price_input.on('change', updateTotal);
+
+        sub_total_Input.on('change', updateTotal);
+
+    });
+
+</script>
+
+{% endblock script %}
+

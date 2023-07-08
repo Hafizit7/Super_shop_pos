@@ -1,0 +1,97 @@
+{% load static %}
+{% load logo %}
+<style>
+    .footer-middle{
+        background-color: #313154 !important;
+    }
+    .footer-middle h4{
+        color: white !important;
+
+    }
+    .footer-middle a, .footer-middle p{
+        color: white;
+        font-size: 11px;
+        font-weight: 400;
+    }
+    .footer-bottom p{
+        color: black !important;
+        font-weight: 400;
+        font-size: 11px;
+    }
+    .payment-img img{
+        height: 20px;
+        padding-top: 2px;
+        margin-right: 2px;
+    }
+</style>
+<footer class="footer footer-2 container-fluid">
+    <div class="footer-middle  pb-4">
+        <div class="container ">
+            <div class="row">
+                <div class="col-6 col-lg-3">
+                    <h4 class="widget-title">Contact Us</h4>
+                    <p>Call us 9am-11pm (Everyday)</p>
+                    <a href="tel:01977872247"> Phone : 01977872247</a>
+                    <p>Location : 15/20 Rasul bag, Nandipara, Bashabo Khilgeon, Dhaka-1219</p>
+                    
+                    <a href='https://api.whatsapp.com/send/?phone=%2B8801977872247&text=how+may+i+help+you%3F&type=phone_number&app_absent=0'><img loading="lazy" src="{% static 'store/images/whatsapp.webp' %}" width="200" height="69" alt=""></a>
+                    
+                    <p class="d-flex payment-img"><img class="my-auto" src="{% static 'store/images/bkash.jpg' %}" alt=""> Bkash (Merchant) 017----</p>
+                    <p class="d-flex payment-img"><img class="my-auto" src="{% static 'store/images/nagad.jpg' %}" alt=""> Nagad (Merchant) 018---</p>
+                    <p class="d-flex payment-img"><img class="my-auto" src="{% static 'store/images/rocket.jpg' %}" alt=""> Rocket (Merchant) 018------</p>
+                    <p class="d-flex payment-img"><img class="my-auto" src="{% static 'store/images/bkash.jpg' %}" alt=""> Bkash (Personal) 018------</p>               
+                </div><!-- End .col-sm-6 -->
+
+                <div class="col-6 col-lg-3">
+                    <div class="widget">
+                        <h4 class="widget-title">Information</h4><!-- End .widget-title -->
+
+                        <ul class="widget-list">
+                            <li><a href="{% url 'about_us' %}">About Us</a></li>
+                            <li><a href="{% url 'privacy-policy' %}">Privacy Policy</a></li>
+                            <li><a href="{% url 'terms_conditions' %}">Terms and conditions</a></li>
+                            <li><a href="{% url 'mission' %}">Our Mission</a></li>                          
+                            <li><a href="{% url 'vision' %}">Our Vision</a></li>                          
+                        </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                </div><!-- End .col-sm-4 col-lg-3 -->
+
+                <div class="col-6 col-lg-3">
+                    <div class="widget">
+                        <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+                        <ul class="widget-list">
+                            <li><a href="{% url 'contact-us' %}">Contact us</a></li>
+                            <li><a href="{% url 'returns_policy' %}">Returns Policy</a></li>
+                            <li><a href="{% url 'shipping_delivery' %}">Shipping and Delivery</a></li>                                                     
+                        </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                </div><!-- End .col-sm-4 col-lg-3 -->
+                <div class="col-6 col-lg-3">
+                    <div class="widget">
+                        <h4 class="widget-title">Business with Us</h4><!-- End .widget-title -->
+                        <ul class="widget-list">
+                            <li><a href="#">Be a seller</a></li>
+                            <li><a href="#">Buy Wholesale</a></li>
+                        </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                </div><!-- End .col-sm-4 col-lg-3 -->
+            </div>
+            </div><!-- End .row -->
+
+        </div><!-- End .container -->
+    </div><!-- End .footer-middle -->
+
+    <div class="footer-bottom mb-5 mb-md-1 ">
+        <div class="container">
+            <p class="footer-copyright">Copyright © 2022 Evazu.com All Rights Reserved.</p><!-- End .footer-copyright -->
+            <div class="social-icons social-icons-color">
+                <span class="social-label">Social Media</span>
+                <a href="#" class="social-icon social-facebook" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon social-twitter" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon social-instagram" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon social-youtube" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
+                <a href="#" class="social-icon social-pinterest" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+            </div><!-- End .soial-icons -->
+        </div><!-- End .container -->
+    </div><!-- End .footer-bottom -->
+</footer><!-- End .footer -->

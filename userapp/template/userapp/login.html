@@ -1,0 +1,28 @@
+{% extends "store/base.html" %}
+{% load crispy_forms_tags %} 
+{% load socialaccount %}
+{% providers_media_js %}
+{% load static %}
+{% block content %}
+    <div class="content-section col-10 col-md-6 col-lg-4 border shadow mx-auto my-4">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-1" style="font-size:25px ; text-align: center;">Log In</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group mx-auto">
+                <button style="background-color: #c1272d; color: white;" class="btn col-12" type="submit">Login</button>
+            </div>
+        </form>
+        <a style="color: #c1272d; border: 1px solid #c1272d; " class="btn col-12 my-1" href="{% provider_login_url 'google'%}"><img src="{% static 'store/images/demos/demo-13/google.png' %}" alt="" style="height: 25px; margin-right: 5px;"> Login with Google</a>
+        <a style="color: #c1272d; border: 1px solid #c1272d; " class="btn col-12 my-1" href="{% url 'social:begin' 'facebook' %}"><i style="font-size: 20px; color: rgb(103, 103, 255);" class="fa-brands fa-facebook"></i>  Login with Facebook</a>
+
+        <div class="border-top py-2">
+            <a href="{% url 'password_reset' %}">Forgotten password?</a>
+            <small class="text-muted">
+                Need An Account? <a class="ml-2" href="{% url 'register' %}">Sign Up Now</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}
