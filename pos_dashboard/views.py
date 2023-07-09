@@ -247,15 +247,15 @@ def supplier_list(request):
 # Category
 
 def category_add(request):
-    categorys = Category.objects.all()
+    categorys = ProductCategory.objects.all()
     if request.method == 'POST':
-        form=CategoryAddForm(request.POST, request.FILES)
+        form=ProductCategoryForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request,'successfully add your new category')
             return redirect('category_list')
     else:
-        form = CategoryAddForm()
+        form = ProductCategoryForm()
 
     context = {
         'categorys': categorys,
@@ -265,7 +265,7 @@ def category_add(request):
 
 
 def category_list(request):
-    category_list = Category.objects.all()
+    category_list = ProductCategory.objects.all()
     context ={
         'category_list':category_list
     }
@@ -319,7 +319,7 @@ def unit_add(request):
 def purchase_product(request):
     unit = Unit.objects.all()
     supplier = Supplier.objects.all()
-    category = Category.objects.all()
+    category = ProductCategory.objects.all()
     brand = Brand.objects.all()
 
     if request.method == 'POST':
@@ -373,7 +373,7 @@ from django.http import JsonResponse
 def sales_product(request):
 
     sale_product_name = Purchase_Product.objects.all()
-    category = Category.objects.all()
+    category = ProductCategory.objects.all()
     brand = Brand.objects.all()
     customer = Customer.objects.all()
     unit = Unit.objects.all()

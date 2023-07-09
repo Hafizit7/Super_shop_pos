@@ -90,17 +90,18 @@ class Sales_Product_Form(forms.ModelForm):
         "sale_price","total_price","total_descount","sub_total","paid","due"]
 
 
-class CategoryAddForm(forms.ModelForm):
+class ProductCategoryForm(forms.ModelForm):
     
     class Meta:
-        model = Category
-        fields =['category_name','parent','image']
+        model = ProductCategory
+        fields =['category_name','parent','img']
 
-
+ 
 class BrandAddForm(forms.ModelForm):
+
     class Meta:
         model = Brand
-        fields =['name','discription','image']
+        fields =['name','image']
 
 
 class UnitAddForm(forms.ModelForm):

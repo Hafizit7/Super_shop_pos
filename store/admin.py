@@ -16,10 +16,8 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImgGalleryAdmin,ProductVriationAdmin]
  
 
-admin.site.register(ProductCategory)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Banner)
-admin.site.register(Brand)
 admin.site.register(Variation)
 admin.site.register(OrderItem)
 admin.site.register(ProductReview)

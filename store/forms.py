@@ -1,6 +1,8 @@
 from email.mime import image
 from django import forms
 from .models import *
+from pos_dashboard.models import *
+
 
 class CouponCodeForm(forms.Form):
     code = forms.CharField(widget=forms.TextInput(attrs={
