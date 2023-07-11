@@ -15,110 +15,79 @@
 <div class="card">
 <div class="card-body">
 <div class="row">
-<div class="col-lg-3 col-sm-6 col-12">
 {% csrf_token %}
-{{ form.media }}
+
+<div class="col-lg-3 col-sm-6 col-12">
 <div class="form-group">
 <label>Product Name</label>
-{{ form.product_name }}
+<input type="text" name="name" class="form-control" placeholder="Product Name">
+
+</div>
+</div>
+
+<div class="col-lg-3 col-sm-6 col-12">
+<div class="form-group">
+<label>Product Code</label>
+<input type="text" name="product_code" class="form-control" placeholder="Product Code">
 </div>
 </div>
 
 <div class="col-lg-3 col-sm-6 col-12">
 <div class="form-group">
 <label>Category</label>
-<select class="select">
-<option>Choose Category</option>
-<option>Computers</option>
-</select>
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>Sub Category</label>
-<select class="select">
-<option>Choose Sub Category</option>
-<option>Fruits</option>
+<select class="select" name="category" >
+<option value="" selected="">Select Category--</option>
+{% for x in category %}
+<option value="{{ x.pk }}">{{ x.category_name }}</option>
+{% endfor %}
 </select>
 </div>
 </div>
 <div class="col-lg-3 col-sm-6 col-12">
 <div class="form-group">
 <label>Brand</label>
-<select class="select">
-<option>Choose Brand</option>
-<option>Brand</option>
+<select class="select" name="brand" >
+<option value="" selected="">Select Brand--</option>
+{% for x in brand %}
+<option value="{{ x.pk }}">{{ x.name }}</option>
+{% endfor %}
 </select>
 </div>
 </div>
+
 <div class="col-lg-3 col-sm-6 col-12">
 <div class="form-group">
 <label>Unit</label>
-<select class="select">
-<option>Choose Unit</option>
-<option>Unit</option>
+<select class="select" name="unit" >
+<option value="" selected="">Select Unit--</option>
+{% for x in unit %}
+<option value="{{ x.pk }}">{{ x.name }}</option>
+{% endfor %}
 </select>
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>SKU</label>
-<input type="text">
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>Minimum Qty</label>
-<input type="text">
 </div>
 </div>
 <div class="col-lg-3 col-sm-6 col-12">
 <div class="form-group">
 <label>Quantity</label>
-<input type="text">
+<input type="number" name="quantity" readonly="True" required="False" class="form-control" placeholder="Quantity">
+</div>
+</div>
+
+<div class="col-lg-3 col-sm-6 col-12">
+<div class="form-group">
+<label>Price</label>
+<input type="number" name="price" class="form-control" placeholder="Price">
+
 </div>
 </div>
 <div class="col-lg-12">
 <div class="form-group">
 <label>Description</label>
-<textarea class="form-control"></textarea>
+<textarea type="text" name="product_details" class="form-control" placeholder="Product Details"></textarea>
 </div>
 </div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>Tax</label>
-<select class="select">
-<option>Choose Tax</option>
-<option>2%</option>
-</select>
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>Discount Type</label>
-<select class="select">
-<option>Percentage</option>
-<option>10%</option>
-<option>20%</option>
-</select>
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>Price</label>
-<input type="text">
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label> Status</label>
-<select class="select">
-<option>Closed</option>
-<option>Open</option>
-</select>
-</div>
-</div>
-<div class="col-lg-12">
+
+<!-- <div class="col-lg-12">
 <div class="form-group">
 <label> Product Image</label>
 <div class="image-upload">
@@ -129,9 +98,9 @@
 </div>
 </div>
 </div>
-</div>
+</div> -->
 <div class="col-lg-12">
-<a href="javascript:void(0);" class="btn btn-submit me-2">Submit</a>
+<button type="submit" class="btn btn-submit me-2">Submit</button>
 <a href="https://dreamspos.dreamguystech.com/html/template/productlist.html" class="btn btn-cancel">Cancel</a>
 </div>
 </div>

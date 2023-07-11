@@ -107,13 +107,8 @@
 <table class="table  datanew">
 <thead>
 <tr>
-<th>
-<!-- <label class="checkboxs">
-<input type="checkbox" id="select-all">
-<span class="checkmarks"></span>
-</label> -->
-</th>
-<th>Image</th>
+
+
 <th>Product Name</th>
 <th>Code</th>
 <th>Category </th>
@@ -127,31 +122,22 @@
 </thead>
 <tbody>
 
-    {% for p in products %}
+    {% for p in product_list %}
 <tr>
 <td>
-<!-- <label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label> -->
-</td>
-<td class="productimgname">
-    <img src="{{ p.image.url }}" alt="product" width="30px">
-</td>
-
-<td>
-{{ p.product_name }}
+{{ p.name }}
 </td>
 <td>{{ p.product_code }}</td>
-<td>{{ p.categoris }}</td>
+<td>{{ p.category }}</td>
 <td>{{ p.brand }}</td>
 <td>{{ p.price }}</td>
-<td>pc</td>
+<td>{{ p.unit }}</td>
 
-{% if p.stock_quantity == 0 %}
-<td>Out</td>
+
+{% if p.quantity == 0 %}
+<td>0</td>
 {% else %}
-<td>{{ p.stock_quantity }}</td> 
+<td>{{ p.quantity }}</td> 
 {% endif %}
 
 <td>{{user.username}}</td>

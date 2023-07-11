@@ -1,7 +1,6 @@
 from email.mime import image
 from django import forms
 from .models import *
-from pos_dashboard.models import *
 
 
 class CouponCodeForm(forms.Form):
@@ -65,8 +64,3 @@ class Contact_Form(forms.ModelForm):
     class Meta:
         model = ConductData
         fields = '__all__'
-
-
-
-
-

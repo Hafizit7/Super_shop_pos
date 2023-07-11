@@ -86,139 +86,35 @@ def user_delete(request, pk):
 
 
 # Product
-def productlist(request):
-    products = Product.objects.all()
-
-    context={
-        'products':products
-    }
-    return render(request, 'pos_dashboard/product_list.html', context)
-
-
-class ProductInline():
-    form_class = ProductForm
-    model = Product
-    template_name = "pos_dashboard/add_product.html"
-
-    def form_valid(self, form):
-        named_formsets = self.get_named_formsets()
-        if not all((x.is_valid() for x in named_formsets.values())):
-            return self.render_to_response(self.get_context_data(form=form))
-
-        self.object = form.save()
-
-        # for every formset, attempt to find a specific formset save function
-        # otherwise, just save.
-        for name, formset in named_formsets.items():
-            formset_save_func = getattr(self, 'formset_{0}_valid'.format(name), None)
-            if formset_save_func is not None:
-                formset_save_func(formset)
-            else:
-                formset.save()
-        return redirect('dashboard-product-list')
-
-    def formset_variants_valid(self, formset):
-        """
-        Hook for custom formset saving.Useful if you have multiple formsets
-        """
-        variants = formset.save(commit=False)  # self.save_formset(formset, contact)
-        # add this 2 lines, if you have can_delete=True parameter 
-        # set in inlineformset_factory func
-        for obj in formset.deleted_objects:
-            obj.delete()
-        for variant in variants:
-            variant.item = self.object
-            variant.save()
-
-    def formset_images_valid(self, formset):
-        """
-        Hook for custom formset saving. Useful if you have multiple formsets
-        """
-        images = formset.save(commit=False)  # self.save_formset(formset, contact)
-        # add this 2 lines, if you have can_delete=True parameter 
-        # set in inlineformset_factory func
-        for obj in formset.deleted_objects:
-            obj.delete()
-        for image in images:
-            image.product = self.object
-            image.save()
-
-
-class ProductCreate(ProductInline, CreateView):
-    def get_context_data(self, **kwargs):
-        ctx = super(ProductCreate, self).get_context_data(**kwargs)
-        ctx['named_formsets'] = self.get_named_formsets()
-        return ctx
-
-    def get_named_formsets(self):
-        if self.request.method == "GET":
-            return {
-                'variants': VariantFormSet(prefix='variants'),
-                'images': ImageFormSet(prefix='images'),
-            }
-        else:
-            return {
-                'variants': VariantFormSet(self.request.POST or None, self.request.FILES or None, prefix='variants'),
-                'images': ImageFormSet(self.request.POST or None, self.request.FILES or None, prefix='images'),
-            }
-
-class ProductUpdate(ProductInline, UpdateView):
-    def get_context_data(self, **kwargs):
-        ctx = super(ProductUpdate, self).get_context_data(**kwargs)
-        ctx['named_formsets'] = self.get_named_formsets()
-        return ctx
-
-    def get_named_formsets(self):
-        return {
-            'variants': VariantFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='variants'),
-            'images': ImageFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='images'),
-        }
-
-@login_required
-@daseboard_required
-def delete_image(request, pk):
-    try:
-        image = ProductImgGallery.objects.get(id=pk)
-    except Image.DoesNotExist:
-        messages.success(
-            request, 'Object Does not exit'
-            )
-        return redirect('update_product', pk=image.product.id)
-
-    image.delete()
-    messages.success(
-            request, 'Image deleted successfully'
-            )
-    return redirect('product-update', pk=image.product.id)
-
-@login_required
-@daseboard_required
-def delete_variant(request, pk):
-    try:
-        variant = Variation.objects.get(id=pk)
-    except Variant.DoesNotExist:
-        messages.success(
-            request, 'Object Does not exit'
-            )
-        return redirect('product-update', pk=variant.product.id)
-
-    variant.delete()
-    messages.success(
-            request, 'Variant deleted successfully'
-            )
-    return redirect('product-update', pk=variant.item.id)
-
-
-@login_required
-@daseboard_required
-def product_delete(request, pk):
-    product = Product.objects.get(pk=pk)
+def product (request):
+    category = Category.objects.all()
+    brand = Brand.objects.all()
+    unit = Unit.objects.all()
     if request.method == 'POST':
-        product.delete()
-        messages.success(request, 'Successfully delete your post')
-        return redirect('dashboard-product-list')
-    return render (request, 'dashboard/product/delete.html')
+        form = Product_Add_Form(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'successfully add your new Purchas Product')
+            return redirect('product_list')
+    else:
+        form = Product_Add_Form()
+        context = {
+            'form':form,
+            'category':category,
+            'brand':brand,
+            'unit':unit,
+        
+        }
+    return render(request,'pos_dashboard/add_product.html', context)
 
+def product_list(request):
+    product_list = Products.objects.all()
+    context = {
+        'product_list':product_list
+    }
+    return render(request,'pos_dashboard/product_list.html', context)
+
+     
 # Supplier
 def supplier_add(request):
     if request.method == 'POST':
@@ -244,18 +140,20 @@ def supplier_list(request):
     return render(request, 'pos_dashboard/supplier/supplier_list.html', context)
 
 
+
+
 # Category
 
 def category_add(request):
-    categorys = ProductCategory.objects.all()
+    categorys = Category.objects.all()
     if request.method == 'POST':
-        form=ProductCategoryForm(request.POST, request.FILES)
+        form=CategoryForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request,'successfully add your new category')
             return redirect('category_list')
     else:
-        form = ProductCategoryForm()
+        form = CategoryForm()
 
     context = {
         'categorys': categorys,
@@ -265,7 +163,7 @@ def category_add(request):
 
 
 def category_list(request):
-    category_list = ProductCategory.objects.all()
+    category_list = Category.objects.all()
     context ={
         'category_list':category_list
     }
@@ -319,14 +217,14 @@ def unit_add(request):
 def purchase_product(request):
     unit = Unit.objects.all()
     supplier = Supplier.objects.all()
-    category = ProductCategory.objects.all()
+    category = Category.objects.all()
     brand = Brand.objects.all()
 
     if request.method == 'POST':
 
         form=Purchase_Product_Form(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            
             
             messages.success(request,'successfully add your new Purchas Product')
             return redirect('purchase_list')
@@ -353,6 +251,7 @@ def purchase_product_list(request):
 
 
 def new_purchase_return(request):
+
     return render(request, 'pos_dashboard/purchase_product/create_purchase_return.html')
 
 
@@ -373,7 +272,7 @@ from django.http import JsonResponse
 def sales_product(request):
 
     sale_product_name = Purchase_Product.objects.all()
-    category = ProductCategory.objects.all()
+    category = Category.objects.all()
     brand = Brand.objects.all()
     customer = Customer.objects.all()
     unit = Unit.objects.all()

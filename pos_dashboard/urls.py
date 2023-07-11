@@ -3,11 +3,11 @@ from . views import *
 
 urlpatterns = [
 
-    path('home/', index, name='homee'),
+    path('', index, name='homee'),
     path('adduser/', user_add, name='add_user'),
     path('userlist/', user_list, name='user_list'),
-    path('add-product', ProductCreate.as_view(), name='add_product'),
-    path('product_list/', productlist, name='product_list'),
+    path('add-product', product, name='add_product'),
+    path('product-list', product_list, name='product_list'),
 
     path('supplier-add/', supplier_add, name='supplier_add'),
     path('supplier-list/', supplier_list, name='supplierlist'),

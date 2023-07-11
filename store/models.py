@@ -12,8 +12,7 @@ from paymentApp.models import *
 from django.utils import timezone
 from django.db.models import Avg
 from PIL import Image
-from pos_dashboard.models import *
-
+from .models import *
 # Create your models here.
 
 class WebsiteLogo(models.Model):
@@ -42,6 +41,47 @@ class PriceRange(models.Model):
 
     def __str__(self):
         return self.price_range
+
+
+class ProductCategory(models.Model):
+    category_name = models.CharField(max_length=100, blank=True, null=True)
+    show_status = models.BooleanField(default=False)
+    parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, blank=True, null=True)
+    img = models.ImageField(upload_to='CategoryImg', blank=True, null=True)
+    slug = models.SlugField(max_length = 100,unique=True,blank=True, null=True) 
+
+    def __str__(self):
+        return self.category_name
+
+    def save(self, *args, **kwargs):
+        try:
+            self.slug =''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(49))
+            super().save(*args, **kwargs)           
+        except IntegrityError:
+            self.save(*args, **kwargs)
+
+    def get_category_update_url(self):
+        return reverse('category-update', kwargs={'slug': self.slug})
+
+class Brand(models.Model):
+    name = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='brandImg')
+    slug = models.SlugField(max_length = 100,unique=True,blank=True, null=True)
+    show_status = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.name
+
+    def get_brand_update_url(self):
+        return reverse('brand-update', kwargs={'slug': self.slug})
+    
+    def save(self, *args, **kwargs):
+        try:
+            self.slug =''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(49))
+            super().save(*args, **kwargs)           
+        except IntegrityError:
+            self.save(*args, **kwargs)
+
 
 class Product (models.Model):
     product_name = models.CharField(max_length=100)

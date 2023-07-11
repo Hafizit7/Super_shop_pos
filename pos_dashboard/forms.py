@@ -16,67 +16,20 @@ class UserForm(forms.ModelForm):
         fields ='__all__'
 
 
-class ProductForm(forms.ModelForm):
-    aditional_discription = forms.CharField(required=False,widget=forms.Textarea(attrs={
-        'class':'form-control p-20',
-        'rows':"4"
-    }))
-    discription =forms.CharField(widget=CKEditorUploadingWidget(attrs={
-        'class':'form-control p-20',
-        'rows':"4"
-    }))
-    flash_sale_add_and_expire_date = forms.DateTimeField(required=False, disabled=False,
-                                          widget=forms.DateTimeInput(attrs={'type':'datetime-local'}))
-    
-    class Meta:
-        model = Product
-        fields = '__all__'
-
-class ImageForm(forms.ModelForm):
-
-    class Meta:
-        model = ProductImgGallery
-        fields = '__all__'
-
-
-class VariantForm(forms.ModelForm):
-    VAR_CATEGORIES = ( 
-        ('', '--select variation type--'), 
-        ('size', 'size'), 
-        ('color', 'color'), 
-        )
-    title = forms.CharField(widget=forms.TextInput(attrs={
-        'class':'form-control'
-        }))
-    category = forms.ChoiceField(choices=VAR_CATEGORIES,widget=forms.Select(attrs={
-        'class':'form-control'
-        }))
-        
-    class Meta:
-        model = Variation
-        fields = '__all__'
-
-
-VariantFormSet = inlineformset_factory(
-    Product, Variation, form=VariantForm,
-    extra=1, can_delete=True, can_delete_extra=True
-)
-ImageFormSet = inlineformset_factory(
-    Product, ProductImgGallery, form=ImageForm,
-    extra=1, can_delete=True, can_delete_extra=True
-)
-
-
 class SupplierAddForm(forms.ModelForm):
-   
-    
     class Meta:
         model = Supplier
         fields = ["name", "supplier_type", "supplier_ID", "address", "phone", "email", "start_date",
         "amount", "guarantor_name","guarantor_phone","Chassis_no","Transport_name","image"]
 
 
-class Purchase_Product_Form(forms.ModelForm):
+class Product_Add_Form(forms.ModelForm):
+    class Meta:
+        model = Products
+        fields = "__all__"
+
+
+class Purchase_Product_Form(forms.Form):
     class Meta:
         model = Purchase_Product
         fields = "__all__"
@@ -90,10 +43,10 @@ class Sales_Product_Form(forms.ModelForm):
         "sale_price","total_price","total_descount","sub_total","paid","due"]
 
 
-class ProductCategoryForm(forms.ModelForm):
+class CategoryForm(forms.ModelForm):
     
     class Meta:
-        model = ProductCategory
+        model = Category
         fields =['category_name','parent','img']
 
  

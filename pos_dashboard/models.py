@@ -1,45 +1,23 @@
 from django.db import models
-from store.models import *
+
 # Create your models here.
 
-class ProductCategory(models.Model):
+class Category(models.Model):
     category_name = models.CharField(max_length=100, blank=True, null=True)
-    show_status = models.BooleanField(default=False)
     parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, blank=True, null=True)
     img = models.ImageField(upload_to='CategoryImg', blank=True, null=True)
-    slug = models.SlugField(max_length = 100,unique=True,blank=True, null=True) 
+    
 
     def __str__(self):
         return self.category_name
 
-    def save(self, *args, **kwargs):
-        try:
-            self.slug =''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(49))
-            super().save(*args, **kwargs)           
-        except IntegrityError:
-            self.save(*args, **kwargs)
-
-    def get_category_update_url(self):
-        return reverse('category-update', kwargs={'slug': self.slug})
 
 class Brand(models.Model):
     name = models.CharField(max_length=50)
     image = models.ImageField(upload_to='brandImg')
-    slug = models.SlugField(max_length = 100,unique=True,blank=True, null=True)
-    show_status = models.BooleanField(default=False)
     
     def __str__(self):
         return self.name
-
-    def get_brand_update_url(self):
-        return reverse('brand-update', kwargs={'slug': self.slug})
-    
-    def save(self, *args, **kwargs):
-        try:
-            self.slug =''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(49))
-            super().save(*args, **kwargs)           
-        except IntegrityError:
-            self.save(*args, **kwargs)
 
 
 class Supplier(models.Model):
@@ -99,6 +77,25 @@ class Unit(models.Model):
         
         return self.name
 
+class Products(models.Model):
+    name = models.CharField(max_length=100, blank=True, null=True)
+    product_code = models.CharField(max_length=100, blank=True, null=True)
+    product_details = models.CharField(max_length=500, blank=True, null=True)
+    price = models.IntegerField()
+    quantity = models.IntegerField(blank=True, null=True)
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
+
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
+    
+    class Meta:
+        
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products'
+
+    def __str__(self):
+        return self.name
+
 
 class Purchase_Product(models.Model):
     phone = models.IntegerField(blank=True, null=True)
@@ -121,7 +118,7 @@ class Purchase_Product(models.Model):
 
     unit = models.ForeignKey("pos_dashboard.Unit", related_name="unit", blank=True, null=True, on_delete=models.CASCADE)
     supplier_name = models.ForeignKey(Supplier, related_name="purchase_Product", blank=True, null=True, on_delete=models.CASCADE)
-    category = models.ForeignKey("pos_dashboard.ProductCategory", related_name="category", blank=True, null=True, on_delete=models.CASCADE)
+    category = models.ForeignKey("pos_dashboard.Category", related_name="category", blank=True, null=True, on_delete=models.CASCADE)
     brand = models.ForeignKey("pos_dashboard.Brand", related_name="brand", blank=True, null=True, on_delete=models.CASCADE)
     
     class Meta:
@@ -149,7 +146,7 @@ class Sales_Product(models.Model):
     Updated_at = models.DateTimeField(max_length=100, blank=True, null=True)
 
     sale_product_name = models.ForeignKey(Purchase_Product, blank=True, null=True, on_delete=models.CASCADE)
-    category = models.ForeignKey(ProductCategory, blank=True, null=True, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, blank=True, null=True, on_delete=models.CASCADE)
     customer_name = models.ForeignKey(Customer, blank=True, null=True, on_delete=models.CASCADE)
     unit = models.ForeignKey(Unit, blank=True, null=True, on_delete=models.CASCADE)

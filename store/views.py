@@ -15,7 +15,6 @@ from django.template.loader import get_template
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, View
-from pos_dashboard.models import *
 
 # from xhtml2pdf import pisa
 
